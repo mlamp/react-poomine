@@ -1,17 +1,25 @@
 import React, {Component} from "react";
 import {Word} from "./Word";
-import {flattenDeep, sample, difference} from "lodash";
+import {sample, difference} from "lodash";
 import {words} from "./data/words";
 import {Vollapuu} from "./Vollapuu";
 import {Description} from "./Description";
 
+const categories = [
+        'Loomade kategooria',
+        'Euroopa riikide kategooria',
+        'Ametite kategooria'
+    ];
+
 export class Game extends Component {
     constructor() {
         super();
+        const categoryId = sample([0,1,2]);
         this.state = {
             history: [],
             stepNumber: 0,
-            word: sample(flattenDeep(words)).toUpperCase(),
+            categoryId: categoryId,
+            word: sample(words)[categoryId].toUpperCase(),
             message: '',
             isDisabled: false
         };
@@ -68,6 +76,7 @@ export class Game extends Component {
     render() {
         return (
             <div>
+                <pre>{categories[this.state.categoryId]}</pre>
                 <Word word={this.state.word} history={this.state.history}/>
                 <Vollapuu stepNumber={this.state.stepNumber}/>
                 <Description message={this.state.message} history={this.state.history} isWinner={this.state.isDisabled}/>
